@@ -109,14 +109,15 @@ def main():
     
     QgsProject.instance().addMapLayer(perp_layer)
 
-     # Label settings
+    # Label settings
     pal_layer = QgsPalLayerSettings()
     pal_layer.fieldName = "distance"
-    pal_layer.placement = QgsPalLayerSettings.OverPoint
+    pal_layer.placement = QgsPalLayerSettings.Line
+       
     pal_layer.isExpression = False
     pal_layer.displayAll = True
-    #pal_layer.centroidInside = True
-
+    pal_layer.enabled = True
+    
     buffer_settings = QgsTextBufferSettings()
     buffer_settings.setEnabled(True)
     buffer_settings.setSize(1)
@@ -125,6 +126,12 @@ def main():
     text_format.setBuffer(buffer_settings)
 
     pal_layer.setFormat(text_format)
+    
+    # Definir as propriedades de dados definidos para ancorar os rótulos no final da linha
+    data_defined_properties = QgsPropertyCollection()
+    data_defined_properties.setProperty(QgsPalLayerSettings.PositionX, QgsProperty.fromExpression("x(line_interpolate_point($geometry, length($geometry)))"))
+    data_defined_properties.setProperty(QgsPalLayerSettings.PositionY, QgsProperty.fromExpression("y(line_interpolate_point($geometry, length($geometry)))"))
+    pal_layer.setDataDefinedProperties(data_defined_properties)
 
     labeling = QgsVectorLayerSimpleLabeling(pal_layer)
     perp_layer.setLabeling(labeling)
