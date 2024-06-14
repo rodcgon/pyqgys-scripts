@@ -1,3 +1,5 @@
+# rcghidro@gmail.com - 14/06/2024
+
 from qgis.core import (
     QgsProject,
     QgsFeature,
@@ -142,3 +144,5 @@ def main():
     iface.messageBar().pushMessage("Success", "Perpendicular lines created successfully", level=1)
 
 main()
+
+# rcghidro@gmail.com - 14/06/2024
